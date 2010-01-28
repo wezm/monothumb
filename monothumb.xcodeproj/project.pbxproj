@@ -11,7 +11,7 @@
 		8DD76F9C0486AA7600D96B5E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08FB779EFE84155DC02AAC07 /* Foundation.framework */; };
 		8DD76F9F0486AA7600D96B5E /* monothumb.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = C6859EA3029092ED04C91782 /* monothumb.1 */; };
 		B1E77DEC1111299B0055084C /* PhotoXMLDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B1E77DEB1111299B0055084C /* PhotoXMLDelegate.m */; };
-		B1E77DEF111129A90055084C /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = B1E77DEE111129A90055084C /* Photo.m */; };
+		B1E77DEF111129A90055084C /* FlickrPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = B1E77DEE111129A90055084C /* FlickrPhoto.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -34,8 +34,8 @@
 		8DD76FA10486AA7600D96B5E /* monothumb */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = monothumb; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1E77DEA1111299B0055084C /* PhotoXMLDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoXMLDelegate.h; sourceTree = "<group>"; };
 		B1E77DEB1111299B0055084C /* PhotoXMLDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoXMLDelegate.m; sourceTree = "<group>"; };
-		B1E77DED111129A90055084C /* Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
-		B1E77DEE111129A90055084C /* Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photo.m; sourceTree = "<group>"; };
+		B1E77DED111129A90055084C /* FlickrPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlickrPhoto.h; sourceTree = "<group>"; };
+		B1E77DEE111129A90055084C /* FlickrPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlickrPhoto.m; sourceTree = "<group>"; };
 		C6859EA3029092ED04C91782 /* monothumb.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = monothumb.1; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -69,8 +69,8 @@
 				08FB7796FE84155DC02AAC07 /* monothumb.m */,
 				B1E77DEA1111299B0055084C /* PhotoXMLDelegate.h */,
 				B1E77DEB1111299B0055084C /* PhotoXMLDelegate.m */,
-				B1E77DED111129A90055084C /* Photo.h */,
-				B1E77DEE111129A90055084C /* Photo.m */,
+				B1E77DED111129A90055084C /* FlickrPhoto.h */,
+				B1E77DEE111129A90055084C /* FlickrPhoto.m */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -144,7 +144,7 @@
 			files = (
 				8DD76F9A0486AA7600D96B5E /* monothumb.m in Sources */,
 				B1E77DEC1111299B0055084C /* PhotoXMLDelegate.m in Sources */,
-				B1E77DEF111129A90055084C /* Photo.m in Sources */,
+				B1E77DEF111129A90055084C /* FlickrPhoto.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,6 +162,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = monothumb_Prefix.pch;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INSTALL_PATH = /usr/local/bin;
 				PRODUCT_NAME = monothumb;
 			};
@@ -175,6 +176,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = monothumb_Prefix.pch;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INSTALL_PATH = /usr/local/bin;
 				PRODUCT_NAME = monothumb;
 			};

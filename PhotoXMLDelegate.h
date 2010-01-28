@@ -7,10 +7,13 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "FlickrPhoto.h"
 
-
-@interface PhotoXMLDelegate : NSObject {
-
+@interface PhotoXMLDelegate : NSObject <NSXMLParserDelegate> {
+	NSMutableArray *photos;
+	FlickrPhoto *photo;
+	BOOL responseOk;
+	BOOL expectingErrorElement;
 }
 
 @end
