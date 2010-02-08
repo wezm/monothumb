@@ -10,13 +10,15 @@
 
 
 @interface FlickrPhoto : NSObject {
-	NSString *identifier;
-	NSString *owner;
-	NSString *title;
-	NSURL *squareUrl;
-	NSURL *mediumUrl;
-	NSSize squareDimensions;
-	NSSize mediumDimensions;
+//	NSString *identifier;
+//	NSString *owner;
+//	NSString *title;
+//	NSURL *squareUrl;
+//	NSURL *mediumUrl;
+//	NSSize squareDimensions;
+//	NSSize mediumDimensions;
+	NSMutableData *data;
+	BOOL finished;
 }
 
 // <photo id="4302502138" owner="40215689@N00" secret="f126101e85" server="2705" farm="3"
@@ -26,9 +28,15 @@
 // url_m="http://farm3.static.flickr.com/2705/4302502138_f126101e85.jpg"
 // height_m="333" width_m="500" />
 
-- (id)initWithDict:(NSDictionary *)attributes;
-- (BOOL)isValid;
-- (NSSize)sizeForHeightKey:(NSString *)heightKey widthKey:(NSString *)widthKey fromDict:(NSDictionary *)dict;
-- (NSURL *)photoPageURL;
+//- (id)initWithDict:(NSDictionary *)attributes;
+//- (BOOL)isValid;
+//- (NSSize)sizeForHeightKey:(NSString *)heightKey widthKey:(NSString *)widthKey fromDict:(NSDictionary *)dict;
+//- (NSURL *)photoPageURL;
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response;
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data;
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error;
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection;
+- (BOOL)isFinished;
 
 @end

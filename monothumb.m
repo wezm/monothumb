@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+#import "FlickrPhoto.h"
 
 void process_photo_node(NSXMLNode *node);
 
@@ -34,7 +35,7 @@ int main (int argc, const char * argv[]) {
 		return 1;
 	}
 
-	photo_nodes = [xml nodesForXPath:@"/res/photos/photo" error:&errors];
+	photo_nodes = [xml nodesForXPath:@"//photos/photo" error:&errors];
 	if(errors != nil) {
 		NSLog(@"Error getting photos");
 		[xml release];
@@ -42,6 +43,7 @@ int main (int argc, const char * argv[]) {
 		return 1;
 	}
 
+	//NSLog(@"%@", photo_nodes);
 	[photo_nodes enumerateObjectsWithOptions:NSEnumerationConcurrent usingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 		NSXMLNode *node = (NSXMLNode *)obj;
 		process_photo_node(node);
@@ -55,13 +57,35 @@ void process_photo_node(NSXMLNode *node)
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 
+	NSRunLoop *run_loop = [NSRunLoop currentRunLoop];
+	BOOL shouldKeepRunning = YES;
+	
 	if ([node kind] != NSXMLElementKind) {
 		NSLog(@"Expecting XML element, got something else");
 		return;
 	}
-	NSXMLElement *photo = (NSXMLElement *)node;
+	NSXMLElement *photo_elem = (NSXMLElement *)node;
 	
-	NSString *value = [[photo attributeForName:@"url_sq"] stringValue];
+	NSString *value = [[photo_elem attributeForName:@"url_sq"] stringValue];
+	if(value == nil) {
+		NSLog(@"Photo URL was nil");
+		[pool drain];
+		return;
+	}
+
+	// Retrieve the image
+	FlickrPhoto *photo = [[FlickrPhoto alloc] init];
+	NSURL *photoUrl = [NSURL URLWithString:value];
+	NSURLRequest *photoRequest = [NSURLRequest requestWithURL:photoUrl cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+	NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:photoRequest delegate:photo];
+	if(!connection) {
+		NSLog(@"Error starting UrlConnection");
+	}
+	
+	while (shouldKeepRunning && [run_loop runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]])
+	{
+		if([photo isFinished]) shouldKeepRunning = NO;
+	}
 	
 	[pool drain];
 }
