@@ -93,8 +93,10 @@
     // it can be called multiple times, for example in the case of a
     // redirect, so each time we reset the data.
     // receivedData is declared as a method instance elsewhere
-	NSLog(@"%@", response);
     [data setLength:0];
+	if(file_name) [file_name release];
+	file_name = [[response suggestedFilename] retain];
+	NSLog(@"%@", file_name);
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)new_data
@@ -122,11 +124,14 @@
 {
     // do something with the data
     // receivedData is declared as a method instance elsewhere
-    NSLog(@"Succeeded! Received %d bytes of data",[data length]);
+    NSLog(@"Succeeded! Received %d bytes of data, writing to %@",[data length], file_name);
 	
     // release the connection, and the data object
     [connection release];
     //[receivedData release];
+	[data writeToFile:file_name atomically:NO];
+	[data release];
+	
 	finished = YES;
 }
 

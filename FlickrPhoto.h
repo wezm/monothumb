@@ -19,6 +19,7 @@
 //	NSSize mediumDimensions;
 	NSMutableData *data;
 	BOOL finished;
+	NSString *file_name;
 }
 
 // <photo id="4302502138" owner="40215689@N00" secret="f126101e85" server="2705" farm="3"

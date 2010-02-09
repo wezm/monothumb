@@ -82,7 +82,9 @@ void process_photo_node(NSXMLNode *node)
 		NSLog(@"Error starting UrlConnection");
 	}
 	
-	while (shouldKeepRunning && [run_loop runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]])
+	// Pump the run loop because we're not a GUI app
+	// TODO: This will keep allocating date objects, perhaps should drain the pool in the loop
+	while (shouldKeepRunning && [run_loop runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:10.0]])
 	{
 		if([photo isFinished]) shouldKeepRunning = NO;
 	}

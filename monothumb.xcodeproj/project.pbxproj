@@ -11,7 +11,6 @@
 		8DD76F9C0486AA7600D96B5E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08FB779EFE84155DC02AAC07 /* Foundation.framework */; };
 		8DD76F9F0486AA7600D96B5E /* monothumb.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = C6859EA3029092ED04C91782 /* monothumb.1 */; };
 		B19C0FB21111985000E36682 /* NSXMLFlickrPhotoTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = B19C0FB11111985000E36682 /* NSXMLFlickrPhotoTransformer.m */; };
-		B1E77DEC1111299B0055084C /* PhotoDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B1E77DEB1111299B0055084C /* PhotoDelegate.m */; };
 		B1E77DEF111129A90055084C /* FlickrPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = B1E77DEE111129A90055084C /* FlickrPhoto.m */; };
 /* End PBXBuildFile section */
 
@@ -148,7 +147,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DD76F9A0486AA7600D96B5E /* monothumb.m in Sources */,
-				B1E77DEC1111299B0055084C /* PhotoDelegate.m in Sources */,
 				B1E77DEF111129A90055084C /* FlickrPhoto.m in Sources */,
 				B19C0FB21111985000E36682 /* NSXMLFlickrPhotoTransformer.m in Sources */,
 			);
