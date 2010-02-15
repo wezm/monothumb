@@ -129,8 +129,8 @@
     // release the connection, and the data object
     [connection release];
     //[receivedData release];
-	[data writeToFile:file_name atomically:NO];
-	[data release];
+	//[data writeToFile:file_name atomically:NO];
+	//[data release];
 	
 	finished = YES;
 }
@@ -140,4 +140,9 @@
 	return finished;
 }
 
+- (NSData *)data
+{
+	return [NSData dataWithData:data];
+}
+	
 @end

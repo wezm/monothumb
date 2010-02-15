@@ -39,5 +39,6 @@
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error;
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection;
 - (BOOL)isFinished;
+- (NSData *)data;
 
 @end
