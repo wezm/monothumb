@@ -48,6 +48,19 @@ int main (int argc, const char * argv[]) {
 		NSXMLNode *node = (NSXMLNode *)obj;
 		process_photo_node(node);
 	}];
+
+	// Create the destination graphics context
+	CGColorSpaceRef rgb = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
+	size_t pixel_width = 75 * 20;
+	size_t pixel_height = 75 * 2;
+	size_t bytes_per_row = pixel_width * 4;
+	CGContextRef bitmap = CGBitmapContextCreate(NULL, pixel_width, pixel_height, 8, bytes_per_row, rgb, kCGImageAlphaNoneSkipLast);
+	if(bitmap == NULL) {
+		NSLog(@"Error creating output bitmap context");
+		[xml release];
+		[pool drain];
+		return 1;
+	}
 	
     [pool drain];
     return 0;
