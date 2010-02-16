@@ -12,7 +12,8 @@
 		8DD76F9F0486AA7600D96B5E /* monothumb.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = C6859EA3029092ED04C91782 /* monothumb.1 */; };
 		B19C0FB21111985000E36682 /* NSXMLFlickrPhotoTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = B19C0FB11111985000E36682 /* NSXMLFlickrPhotoTransformer.m */; };
 		B1E77DEF111129A90055084C /* FlickrPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = B1E77DEE111129A90055084C /* FlickrPhoto.m */; };
-		B1EEF0011128E74B0065096F /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1EEF0001128E74B0065096F /* ApplicationServices.framework */; };
+		B1EEF196112A32260065096F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1EEF195112A32260065096F /* QuartzCore.framework */; };
+		B1EEF2A0112A339C0065096F /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1EEF29F112A339C0065096F /* AppKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -37,7 +38,8 @@
 		B19C0FB11111985000E36682 /* NSXMLFlickrPhotoTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSXMLFlickrPhotoTransformer.m; sourceTree = "<group>"; };
 		B1E77DED111129A90055084C /* FlickrPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlickrPhoto.h; sourceTree = "<group>"; };
 		B1E77DEE111129A90055084C /* FlickrPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlickrPhoto.m; sourceTree = "<group>"; };
-		B1EEF0001128E74B0065096F /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
+		B1EEF195112A32260065096F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		B1EEF29F112A339C0065096F /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		C6859EA3029092ED04C91782 /* monothumb.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = monothumb.1; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -47,7 +49,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DD76F9C0486AA7600D96B5E /* Foundation.framework in Frameworks */,
-				B1EEF0011128E74B0065096F /* ApplicationServices.framework in Frameworks */,
+				B1EEF196112A32260065096F /* QuartzCore.framework in Frameworks */,
+				B1EEF2A0112A339C0065096F /* AppKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,8 +84,9 @@
 		08FB779DFE84155DC02AAC07 /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
-				B1EEF0001128E74B0065096F /* ApplicationServices.framework */,
+				B1EEF29F112A339C0065096F /* AppKit.framework */,
 				08FB779EFE84155DC02AAC07 /* Foundation.framework */,
+				B1EEF195112A32260065096F /* QuartzCore.framework */,
 			);
 			name = "External Frameworks and Libraries";
 			sourceTree = "<group>";

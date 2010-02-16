@@ -1,4 +1,6 @@
 #import <Foundation/Foundation.h>
+#import <QuartzCore/QuartzCore.h>
+#import <AppKit/AppKit.h>
 #import "FlickrPhoto.h"
 
 FlickrPhoto *process_photo_node(NSXMLNode *node);
@@ -53,35 +55,75 @@ int main (int argc, const char * argv[]) {
 		if(photo != nil) [photos addObject:photo];
 	}];
 
-	// Create the destination graphics context
-	CGColorSpaceRef rgb = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
-	size_t pixel_width = 75 * 20;
-	size_t pixel_height = 75 * 2;
-	size_t bytes_per_row = pixel_width * 4;
-	CGContextRef bitmap = CGBitmapContextCreate(NULL, pixel_width, pixel_height, 8, bytes_per_row, rgb, kCGImageAlphaNoneSkipLast);
-	if(bitmap == NULL) {
-		NSLog(@"Error creating output bitmap context");
+	// Create the destination image
+//	CGColorSpaceRef rgb = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
+	NSInteger pixel_width = 75 * 20;
+	NSInteger pixel_height = 75 * 2;
+	NSInteger bytes_per_row = pixel_width * 4;
+//	CGContextRef bitmap = CGBitmapContextCreate(NULL, pixel_width, pixel_height, 8, bytes_per_row, rgb, kCGImageAlphaNoneSkipLast);
+//	if(bitmap == NULL) {
+//		NSLog(@"Error creating output bitmap context");
+//		[xml release];
+//		[pool drain];
+//		return 1;
+//	}
+
+	NSBitmapImageRep *dest = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL
+																	 pixelsWide:pixel_width
+																	 pixelsHigh:pixel_height
+																  bitsPerSample:8 
+																samplesPerPixel:3
+																	   hasAlpha:NO
+																	   isPlanar:NO
+																 colorSpaceName:NSCalibratedRGBColorSpace
+																	bytesPerRow:0
+																   bitsPerPixel:32];
+	if(dest == nil)
+	{
+		NSLog(@"Unable to allocate destination image rep");
 		[xml release];
 		[pool drain];
 		return 1;
 	}
-	
+
+	NSGraphicsContext *context = [NSGraphicsContext graphicsContextWithBitmapImageRep:dest];
+	CIContext *core_image_context = [context CIContext];
+
 	[photos enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 		FlickrPhoto *photo = (FlickrPhoto *)obj;
 //		CGSize thumb_size = {75, 75};
 //		CGLayerRef thumb_layer = CGLayerCreateWithContext(bitmap, thumb_size, NULL);
 //		CGContextRef layer_context = CGLayerGetContext(thumb_layer);
 
-		NSBitmapImageRep *rep = [[NSBitmapImageRep alloc] initWithData:[photo data]];
+		//NSBitmapImageRep *rep = [[NSBitmapImageRep alloc] initWithData:[photo data]];
 //		NSRect thumb_rect = NSMakeRect(0, 0, 75, 75);
 //		CGImageRef *image = [thumb CGImageForProposedRect:&thumb_rect context:layer_context hints:nil];
 //		if(image == NULL) {
 //			NSLog(@"Error getting CGImage from NSImage");
 //			stop = YES;
 //		}
-		NSGraphicsContext *context = [NSGraphicsContext graphicsContextWithBitmapImageRep:rep];
-		CIContext *core_image_context = [context CIContext];
 		
+		CIImage *image = [CIImage imageWithData:[photo data]];
+
+		// Apply the monochrome filter
+		CIFilter *mono_filter = [CIFilter filterWithName:@"CIColorMonochrome"];
+		if(mono_filter == nil)
+		{
+			NSLog(@"Error getting CIColorMonochrome filter");
+			[xml release];
+			[pool drain];
+			return;
+		}
+		
+		[mono_filter setDefaults];
+		[mono_filter setValue:image forKey:@"inputImage"];
+		//[mono_filter setValue:image forKey:@"inputColor"];
+		//[mono_filter setValue:[NSNumber numberWithFloat:1.0] forKey:@"inputIntensity"];
+		
+		CIImage *result = [mono_filter valueForKey:@"outputImage"];
+		
+		// Draw the result in the destination context
+		//[core_image_context drawImage:result inRect:<#(CGRect)dest#> fromRect:<#(CGRect)src#>];
 	}];
 	
     [pool drain];
