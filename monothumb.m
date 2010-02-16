@@ -49,7 +49,7 @@ int main (int argc, const char * argv[]) {
 	photos = [[NSMutableArray alloc] initWithCapacity:[photo_nodes count]];
 	
 	//NSLog(@"%@", photo_nodes);
-	[photo_nodes enumerateObjectsWithOptions:NSEnumerationConcurrent usingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+	[photo_nodes enumerateObjectsWithOptions:0 usingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 		NSXMLNode *node = (NSXMLNode *)obj;
 		FlickrPhoto *photo = process_photo_node(node);
 		if(photo != nil) [photos addObject:photo];
@@ -117,14 +117,23 @@ int main (int argc, const char * argv[]) {
 		
 		[mono_filter setDefaults];
 		[mono_filter setValue:image forKey:@"inputImage"];
-		//[mono_filter setValue:image forKey:@"inputColor"];
+		CIColor *grey = [CIColor colorWithRed:0.5 green:0.5 blue:0.5];
+		[mono_filter setValue:grey forKey:@"inputColor"];
 		//[mono_filter setValue:[NSNumber numberWithFloat:1.0] forKey:@"inputIntensity"];
 		
 		CIImage *result = [mono_filter valueForKey:@"outputImage"];
 		
 		// Draw the result in the destination context
-		//[core_image_context drawImage:result inRect:<#(CGRect)dest#> fromRect:<#(CGRect)src#>];
+		CGRect src_rect = NSRectToCGRect(NSMakeRect(0, 0, 75, 75));
+		CGPoint dest_point = {idx * 75, 0};
+		[core_image_context drawImage:result atPoint:dest_point fromRect:src_rect];
+		dest_point.y = 75;
+		[core_image_context drawImage:image atPoint:dest_point fromRect:src_rect];
 	}];
+	
+	NSDictionary *properties = [NSDictionary dictionaryWithObjectsAndKeys:NSImageCompressionFactor, [NSNumber numberWithFloat:0.9], NSImageProgressive, [NSNumber numberWithBool:YES], NSImageFallbackBackgroundColor, [NSColor whiteColor], nil];
+	NSData *final_image = [dest representationUsingType:NSJPEGFileType properties:properties];
+	[final_image writeToFile:@"output.jpg" options:0 error:&errors];
 	
     [pool drain];
     return 0;
