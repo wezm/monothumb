@@ -47,8 +47,6 @@ int main (int argc, const char * argv[]) {
 	}
 
 	photos = [[NSMutableArray alloc] initWithCapacity:[photo_nodes count]];
-	
-	//NSLog(@"%@", photo_nodes);
 	[photo_nodes enumerateObjectsWithOptions:0 usingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 		NSXMLNode *node = (NSXMLNode *)obj;
 		FlickrPhoto *photo = process_photo_node(node);
@@ -56,18 +54,9 @@ int main (int argc, const char * argv[]) {
 	}];
 
 	// Create the destination image
-//	CGColorSpaceRef rgb = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
 	NSInteger pixel_width = 75 * 20;
 	NSInteger pixel_height = 75 * 2;
 	NSInteger bytes_per_row = pixel_width * 4;
-//	CGContextRef bitmap = CGBitmapContextCreate(NULL, pixel_width, pixel_height, 8, bytes_per_row, rgb, kCGImageAlphaNoneSkipLast);
-//	if(bitmap == NULL) {
-//		NSLog(@"Error creating output bitmap context");
-//		[xml release];
-//		[pool drain];
-//		return 1;
-//	}
-
 	NSBitmapImageRep *dest = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL
 																	 pixelsWide:pixel_width
 																	 pixelsHigh:pixel_height
@@ -90,19 +79,7 @@ int main (int argc, const char * argv[]) {
 	CIContext *core_image_context = [context CIContext];
 
 	[photos enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-		FlickrPhoto *photo = (FlickrPhoto *)obj;
-//		CGSize thumb_size = {75, 75};
-//		CGLayerRef thumb_layer = CGLayerCreateWithContext(bitmap, thumb_size, NULL);
-//		CGContextRef layer_context = CGLayerGetContext(thumb_layer);
-
-		//NSBitmapImageRep *rep = [[NSBitmapImageRep alloc] initWithData:[photo data]];
-//		NSRect thumb_rect = NSMakeRect(0, 0, 75, 75);
-//		CGImageRef *image = [thumb CGImageForProposedRect:&thumb_rect context:layer_context hints:nil];
-//		if(image == NULL) {
-//			NSLog(@"Error getting CGImage from NSImage");
-//			stop = YES;
-//		}
-		
+		FlickrPhoto *photo = (FlickrPhoto *)obj;		
 		CIImage *image = [CIImage imageWithData:[photo data]];
 
 		// Apply the monochrome filter
