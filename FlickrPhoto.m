@@ -8,14 +8,44 @@
 
 #import "FlickrPhoto.h"
 
+@interface FlickrPhoto (Private)
+
+- (NSSize)sizeForHeightKey:(NSString *)heightKey widthKey:(NSString *)widthKey fromElement:(NSXMLElement *)e;
+
+@end
+
 
 @implementation FlickrPhoto
 
-- (id)init
+//- (id)init
+//{
+//	if((self = [super init]) != nil) {
+//		data = [[NSMutableData alloc] init];
+//		finished = NO;
+//	}
+//	
+//	return self;
+//}
+//
+
+@synthesize url;
+@synthesize dimensions;
+@synthesize title;
+
+- (id)initWithXMLElement:(NSXMLElement *)element
 {
-	if((self = [super init]) != nil) {
+	if((self = [super init]) != nil)
+	{
+		NSString *value = [[element attributeForName:@"url_sq"] stringValue];
+		if(value == nil) {
+			NSLog(@"Square photo URL was nil");
+//			[pool drain];
+			return nil;
+		}
+
+		url = [[NSURL alloc] initWithString:value];
+		dimensions = [self sizeForHeightKey:@"height_sq" widthKey:@"width_sq" fromElement:element];
 		data = [[NSMutableData alloc] init];
-		finished = NO;
 	}
 	
 	return self;
@@ -47,28 +77,30 @@
 //	return self;
 //}
 //
-//- (NSSize)sizeForHeightKey:(NSString *)heightKey widthKey:(NSString *)widthKey fromDict:(NSDictionary *)dict
-//{
-//	NSString *height;
-//	NSString *width;
-//	NSSize size;
-//	
-//	height = [dict objectForKey:heightKey];
-//	width = [dict objectForKey:widthKey];
-//	if(width && height) {
-//		size = NSMakeSize([width floatValue], [height floatValue]);
-//	}
-//	else {
-//		size = NSMakeSize(-1, -1);
-//	}
+- (NSSize)sizeForHeightKey:(NSString *)heightKey widthKey:(NSString *)widthKey fromElement:(NSXMLElement *)e
+{
+	NSString *height = [[e attributeForName:heightKey] stringValue];
+	NSString *width = [[e attributeForName:widthKey] stringValue];
+	NSSize size;
+	
+	if(width && height) {
+		size = NSMakeSize([width floatValue], [height floatValue]);
+	}
+	else {
+		size = NSMakeSize(-1, -1);
+	}
+
+	return size;
+}
 //
-//	return size;
-//}
-//
-//- (BOOL)isValid
-//{
-//	return YES;
-//}
+- (BOOL)isValid
+{
+	if(dimensions.height > 0 && dimensions.width > 0) {
+		return YES;
+	}
+	
+	return NO;
+}
 //
 //- (NSURL *)photoPageURL
 //{
@@ -139,6 +171,43 @@
 {
 	return finished;
 }
+
+//FlickrPhoto *process_photo_node(NSXMLNode *node)
+//{
+//	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+//	
+//	NSRunLoop *run_loop = [NSRunLoop currentRunLoop];
+//	BOOL shouldKeepRunning = YES;
+//	
+//	NSString *value = [[photo_elem attributeForName:@"url_sq"] stringValue];
+//	if(value == nil) {
+//		NSLog(@"Photo URL was nil");
+//		[pool drain];
+//		return nil;
+//	}
+//	
+//	// Retrieve the image
+//	FlickrPhoto *photo = [[FlickrPhoto alloc] init];
+//	NSURL *photoUrl = [NSURL URLWithString:value];
+//	NSURLRequest *photoRequest = [NSURLRequest requestWithURL:photoUrl cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+//	NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:photoRequest delegate:photo];
+//	if(!connection) {
+//		NSLog(@"Error starting UrlConnection");
+//		return nil;
+//	}
+//	
+//	// Pump the run loop because we're not a GUI app
+//	// TODO: This will keep allocating date objects, perhaps should drain the pool in the loop
+//	while (shouldKeepRunning && [run_loop runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:60.0]])
+//	{
+//		if([photo isFinished]) shouldKeepRunning = NO;
+//	}
+//	
+//	// TODO: Check if photo is valid
+//	
+//	[pool drain];
+//	return [photo autorelease];
+//}
 
 - (NSData *)data
 {

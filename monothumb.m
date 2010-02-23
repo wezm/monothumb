@@ -2,57 +2,18 @@
 #import <QuartzCore/QuartzCore.h>
 #import <AppKit/AppKit.h>
 #import "FlickrPhoto.h"
+#import "FlickrClient.h"
 
 FlickrPhoto *process_photo_node(NSXMLNode *node);
 
 int main (int argc, const char * argv[]) {
     NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
-
 	NSError *errors;
-	NSURL *api_url = [NSURL URLWithString:@"http://api.flickr.com/services/rest/?method=flickr.people.getPublicPhotos&api_key=aa003631cc50bd47f27f242d30bcd22f&user_id=40215689%40N00&per_page=20&extras=url_sq,url_m"];
-	NSXMLDocument *xml = [[NSXMLDocument alloc] initWithContentsOfURL:api_url options:NSXMLNodeOptionsNone error:&errors];
-	NSXMLElement *e;
-	NSString *stat;
-	NSArray *photo_nodes;
-	NSMutableArray *photos;
+
+	FlickrClient *flickr = [[FlickrClient alloc] init];
 	
-	if(xml == nil) {
-		NSLog(@"Error parsing the photo XML");
-		[pool drain];
-		return 1;
-	}
-
-	e = [xml rootElement];
-	stat = [[e attributeForName:@"stat"] stringValue];
-	if(stat == nil) {
-		NSLog(@"Expected stat attribute but got nil");
-		[xml release];
-		[pool drain];
-		return 1;
-	}
+	[flickr fetchPhotos]; // XXX: rename this method: getRecentPhotos, photostream...?
 	
-	if ([stat compare:@"ok"] != NSOrderedSame) {
-		NSLog(@"Stat not ok: %@", stat);
-		[xml release];
-		[pool drain];
-		return 1;
-	}
-
-	photo_nodes = [xml nodesForXPath:@"//photos/photo" error:&errors];
-	if(errors != nil) {
-		NSLog(@"Error getting photos");
-		[xml release];
-		[pool drain];
-		return 1;
-	}
-
-	photos = [[NSMutableArray alloc] initWithCapacity:[photo_nodes count]];
-	[photo_nodes enumerateObjectsWithOptions:0 usingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-		NSXMLNode *node = (NSXMLNode *)obj;
-		FlickrPhoto *photo = process_photo_node(node);
-		if(photo != nil) [photos addObject:photo];
-	}];
-
 	// Create the destination image
 	NSInteger pixel_width = 75 * 20;
 	NSInteger pixel_height = 75 * 2;
@@ -70,7 +31,6 @@ int main (int argc, const char * argv[]) {
 	if(dest == nil)
 	{
 		NSLog(@"Unable to allocate destination image rep");
-		[xml release];
 		[pool drain];
 		return 1;
 	}
@@ -78,7 +38,7 @@ int main (int argc, const char * argv[]) {
 	NSGraphicsContext *context = [NSGraphicsContext graphicsContextWithBitmapImageRep:dest];
 	CIContext *core_image_context = [context CIContext];
 
-	[photos enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+	[[flickr photos] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 		FlickrPhoto *photo = (FlickrPhoto *)obj;		
 		CIImage *image = [CIImage imageWithData:[photo data]];
 
@@ -87,7 +47,7 @@ int main (int argc, const char * argv[]) {
 		if(mono_filter == nil)
 		{
 			NSLog(@"Error getting CIColorMonochrome filter");
-			[xml release];
+			[flickr release];
 			[pool drain];
 			return;
 		}
@@ -114,47 +74,4 @@ int main (int argc, const char * argv[]) {
 	
     [pool drain];
     return 0;
-}
-
-FlickrPhoto *process_photo_node(NSXMLNode *node)
-{
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
-	NSRunLoop *run_loop = [NSRunLoop currentRunLoop];
-	BOOL shouldKeepRunning = YES;
-	
-	if ([node kind] != NSXMLElementKind) {
-		NSLog(@"Expecting XML element, got something else");
-		return nil;
-	}
-	NSXMLElement *photo_elem = (NSXMLElement *)node;
-	
-	NSString *value = [[photo_elem attributeForName:@"url_sq"] stringValue];
-	if(value == nil) {
-		NSLog(@"Photo URL was nil");
-		[pool drain];
-		return nil;
-	}
-
-	// Retrieve the image
-	FlickrPhoto *photo = [[FlickrPhoto alloc] init];
-	NSURL *photoUrl = [NSURL URLWithString:value];
-	NSURLRequest *photoRequest = [NSURLRequest requestWithURL:photoUrl cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
-	NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:photoRequest delegate:photo];
-	if(!connection) {
-		NSLog(@"Error starting UrlConnection");
-		return nil;
-	}
-	
-	// Pump the run loop because we're not a GUI app
-	// TODO: This will keep allocating date objects, perhaps should drain the pool in the loop
-	while (shouldKeepRunning && [run_loop runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:60.0]])
-	{
-		if([photo isFinished]) shouldKeepRunning = NO;
-	}
-	
-	// TODO: Check if photo is valid
-	
-	[pool drain];
-	return [photo autorelease];
 }

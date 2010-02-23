@@ -11,6 +11,16 @@
 		8DD76F9C0486AA7600D96B5E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08FB779EFE84155DC02AAC07 /* Foundation.framework */; };
 		8DD76F9F0486AA7600D96B5E /* monothumb.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = C6859EA3029092ED04C91782 /* monothumb.1 */; };
 		B19C0FB21111985000E36682 /* NSXMLFlickrPhotoTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = B19C0FB11111985000E36682 /* NSXMLFlickrPhotoTransformer.m */; };
+		B1CE31A11131D15200C21259 /* FlickrClient.m in Sources */ = {isa = PBXBuildFile; fileRef = B1CE31A01131D15200C21259 /* FlickrClient.m */; };
+		B1CE31FA1133290800C21259 /* GHUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1CE31EA1133279A00C21259 /* GHUnit.framework */; };
+		B1CE32011133298900C21259 /* GHUnitTestMain.m in Sources */ = {isa = PBXBuildFile; fileRef = B1CE32001133298900C21259 /* GHUnitTestMain.m */; };
+		B1CE320611332A2C00C21259 /* FlickrClient.m in Sources */ = {isa = PBXBuildFile; fileRef = B1CE31A01131D15200C21259 /* FlickrClient.m */; };
+		B1CE321B11332C7C00C21259 /* FlickrPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = B1E77DEE111129A90055084C /* FlickrPhoto.m */; };
+		B1CE32461133B50100C21259 /* sample_error_response.xml in Resources */ = {isa = PBXBuildFile; fileRef = B1CE32421133B4EE00C21259 /* sample_error_response.xml */; };
+		B1CE32471133B50200C21259 /* sample_response.xml in Resources */ = {isa = PBXBuildFile; fileRef = B1CE32431133B4EE00C21259 /* sample_response.xml */; };
+		B1CE32611133B5FE00C21259 /* GHUnit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B1CE31EA1133279A00C21259 /* GHUnit.framework */; };
+		B1CE32CC1133BC8C00C21259 /* TestFlickrClient.m in Sources */ = {isa = PBXBuildFile; fileRef = B1CE32CB1133BC8C00C21259 /* TestFlickrClient.m */; };
+		B1CE32D01133BEC400C21259 /* TestFlickrPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = B1CE32CF1133BEC400C21259 /* TestFlickrPhoto.m */; };
 		B1E77DEF111129A90055084C /* FlickrPhoto.m in Sources */ = {isa = PBXBuildFile; fileRef = B1E77DEE111129A90055084C /* FlickrPhoto.m */; };
 		B1EEF196112A32260065096F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1EEF195112A32260065096F /* QuartzCore.framework */; };
 		B1EEF2A0112A339C0065096F /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1EEF29F112A339C0065096F /* AppKit.framework */; };
@@ -27,6 +37,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
+		B1CE31FE1133296100C21259 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				B1CE32611133B5FE00C21259 /* GHUnit.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +56,17 @@
 		8DD76FA10486AA7600D96B5E /* monothumb */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = monothumb; sourceTree = BUILT_PRODUCTS_DIR; };
 		B19C0FB01111985000E36682 /* NSXMLFlickrPhotoTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSXMLFlickrPhotoTransformer.h; sourceTree = "<group>"; };
 		B19C0FB11111985000E36682 /* NSXMLFlickrPhotoTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSXMLFlickrPhotoTransformer.m; sourceTree = "<group>"; };
+		B1CE319F1131D15200C21259 /* FlickrClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlickrClient.h; sourceTree = "<group>"; };
+		B1CE31A01131D15200C21259 /* FlickrClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlickrClient.m; sourceTree = "<group>"; };
+		B1CE31EA1133279A00C21259 /* GHUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GHUnit.framework; sourceTree = "<group>"; };
+		B1CE31F41133287B00C21259 /* Monothumb Tests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Monothumb Tests.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B1CE31F61133287B00C21259 /* Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tests-Info.plist"; sourceTree = "<group>"; };
+		B1CE32001133298900C21259 /* GHUnitTestMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GHUnitTestMain.m; sourceTree = "<group>"; };
+		B1CE320911332BA100C21259 /* Tests_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tests_Prefix.pch; sourceTree = "<group>"; };
+		B1CE32421133B4EE00C21259 /* sample_error_response.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = sample_error_response.xml; sourceTree = "<group>"; };
+		B1CE32431133B4EE00C21259 /* sample_response.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = sample_response.xml; sourceTree = "<group>"; };
+		B1CE32CB1133BC8C00C21259 /* TestFlickrClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestFlickrClient.m; sourceTree = "<group>"; };
+		B1CE32CF1133BEC400C21259 /* TestFlickrPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestFlickrPhoto.m; sourceTree = "<group>"; };
 		B1E77DED111129A90055084C /* FlickrPhoto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlickrPhoto.h; sourceTree = "<group>"; };
 		B1E77DEE111129A90055084C /* FlickrPhoto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlickrPhoto.m; sourceTree = "<group>"; };
 		B1EEF195112A32260065096F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -54,16 +85,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B1CE31F21133287B00C21259 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B1CE31FA1133290800C21259 /* GHUnit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		08FB7794FE84155DC02AAC07 /* monothumb */ = {
 			isa = PBXGroup;
 			children = (
+				B1CE31FF1133296B00C21259 /* Tests */,
 				08FB7795FE84155DC02AAC07 /* Source */,
 				C6859EA2029092E104C91782 /* Documentation */,
 				08FB779DFE84155DC02AAC07 /* External Frameworks and Libraries */,
 				1AB674ADFE9D54B511CA2CBB /* Products */,
+				B1CE31F61133287B00C21259 /* Tests-Info.plist */,
 			);
 			name = monothumb;
 			sourceTree = "<group>";
@@ -77,6 +118,8 @@
 				B1E77DEE111129A90055084C /* FlickrPhoto.m */,
 				B19C0FB01111985000E36682 /* NSXMLFlickrPhotoTransformer.h */,
 				B19C0FB11111985000E36682 /* NSXMLFlickrPhotoTransformer.m */,
+				B1CE319F1131D15200C21259 /* FlickrClient.h */,
+				B1CE31A01131D15200C21259 /* FlickrClient.m */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -87,6 +130,7 @@
 				B1EEF29F112A339C0065096F /* AppKit.framework */,
 				08FB779EFE84155DC02AAC07 /* Foundation.framework */,
 				B1EEF195112A32260065096F /* QuartzCore.framework */,
+				B1CE31EA1133279A00C21259 /* GHUnit.framework */,
 			);
 			name = "External Frameworks and Libraries";
 			sourceTree = "<group>";
@@ -95,8 +139,30 @@
 			isa = PBXGroup;
 			children = (
 				8DD76FA10486AA7600D96B5E /* monothumb */,
+				B1CE31F41133287B00C21259 /* Monothumb Tests.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		B1CE31FF1133296B00C21259 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				B1CE32351133B4A100C21259 /* Fixtures */,
+				B1CE320911332BA100C21259 /* Tests_Prefix.pch */,
+				B1CE32001133298900C21259 /* GHUnitTestMain.m */,
+				B1CE32CB1133BC8C00C21259 /* TestFlickrClient.m */,
+				B1CE32CF1133BEC400C21259 /* TestFlickrPhoto.m */,
+			);
+			name = Tests;
+			sourceTree = "<group>";
+		};
+		B1CE32351133B4A100C21259 /* Fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				B1CE32421133B4EE00C21259 /* sample_error_response.xml */,
+				B1CE32431133B4EE00C21259 /* sample_response.xml */,
+			);
+			name = Fixtures;
 			sourceTree = "<group>";
 		};
 		C6859EA2029092E104C91782 /* Documentation */ = {
@@ -128,6 +194,24 @@
 			productReference = 8DD76FA10486AA7600D96B5E /* monothumb */;
 			productType = "com.apple.product-type.tool";
 		};
+		B1CE31F31133287B00C21259 /* Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B1CE31F91133287C00C21259 /* Build configuration list for PBXNativeTarget "Tests" */;
+			buildPhases = (
+				B1CE31F01133287B00C21259 /* Resources */,
+				B1CE31F11133287B00C21259 /* Sources */,
+				B1CE31F21133287B00C21259 /* Frameworks */,
+				B1CE31FE1133296100C21259 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Tests;
+			productName = Tests;
+			productReference = B1CE31F41133287B00C21259 /* Monothumb Tests.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -141,9 +225,22 @@
 			projectRoot = "";
 			targets = (
 				8DD76F960486AA7600D96B5E /* monothumb */,
+				B1CE31F31133287B00C21259 /* Tests */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B1CE31F01133287B00C21259 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B1CE32461133B50100C21259 /* sample_error_response.xml in Resources */,
+				B1CE32471133B50200C21259 /* sample_response.xml in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8DD76F990486AA7600D96B5E /* Sources */ = {
@@ -153,6 +250,19 @@
 				8DD76F9A0486AA7600D96B5E /* monothumb.m in Sources */,
 				B1E77DEF111129A90055084C /* FlickrPhoto.m in Sources */,
 				B19C0FB21111985000E36682 /* NSXMLFlickrPhotoTransformer.m in Sources */,
+				B1CE31A11131D15200C21259 /* FlickrClient.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B1CE31F11133287B00C21259 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B1CE32011133298900C21259 /* GHUnitTestMain.m in Sources */,
+				B1CE320611332A2C00C21259 /* FlickrClient.m in Sources */,
+				B1CE321B11332C7C00C21259 /* FlickrPhoto.m in Sources */,
+				B1CE32CC1133BC8C00C21259 /* TestFlickrClient.m in Sources */,
+				B1CE32D01133BEC400C21259 /* TestFlickrPhoto.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -164,6 +274,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
@@ -181,6 +295,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = monothumb_Prefix.pch;
@@ -216,6 +334,64 @@
 			};
 			name = Release;
 		};
+		B1CE31F71133287C00C21259 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Tests_Prefix.pch;
+				INFOPLIST_FILE = "Tests-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "Monothumb Tests";
+			};
+			name = Debug;
+		};
+		B1CE31F81133287C00C21259 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Tests_Prefix.pch;
+				INFOPLIST_FILE = "Tests-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "Monothumb Tests";
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -233,6 +409,15 @@
 			buildConfigurations = (
 				1DEB927908733DD40010E9CD /* Debug */,
 				1DEB927A08733DD40010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B1CE31F91133287C00C21259 /* Build configuration list for PBXNativeTarget "Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B1CE31F71133287C00C21259 /* Debug */,
+				B1CE31F81133287C00C21259 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
