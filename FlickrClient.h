@@ -8,6 +8,15 @@
 
 #import <Cocoa/Cocoa.h>
 
+NSString *const WMMonothumbErrorDomain;
+
+enum {
+	//NSFileReadNoSuchFileError=260,
+	WMFlickrClientParseError=1,
+//	HttpParserOutOfBoundsError=2,
+//	HttpParserInvalidRequest=3,
+};
+
 
 @interface FlickrClient : NSObject {
 	NSMutableArray *photos;
@@ -16,7 +25,7 @@
 
 @property(retain) NSXMLDocument *xml;
 
-- (void)fetchPhotosAndReturnError:(NSError **)error;
+- (BOOL)fetchPhotosAndReturnError:(NSError **)error;
 - (NSArray *)photos;
 
 @end

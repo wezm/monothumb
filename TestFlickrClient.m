@@ -1,6 +1,7 @@
 #import "FlickrClient.h"
 
 @interface TestFlickrClient : GHTestCase {
+	NSError *error;
 	FlickrClient *client;
 	NSXMLDocument *xml;
 	NSXMLDocument *error_xml;
@@ -31,6 +32,7 @@
 - (void)setUp {
     // Run before each test method
 	client = [[FlickrClient alloc] init];
+	error = nil;
 }
 //
 - (void)tearDown {
@@ -40,7 +42,6 @@
 
 - (void)testFetchPhotosSuccess
 {
-	NSError *error;
 	client.xml = xml;
 	[client fetchPhotosAndReturnError:&error];
 	
@@ -50,17 +51,15 @@
 
 - (void)testFetchPhotosParseError
 {
-	NSError *error;
 	client.xml = nil;
 	[client fetchPhotosAndReturnError:&error];
 	
 	GHAssertNotNil(error, @"Error should not be nil");
-	GHAssertEqualStrings(@"GET", [error localizedDescription], nil);
+	GHAssertEqualStrings(@"Error parsing the photo XML", [error localizedDescription], nil);
 }
 
 - (void)testFetchPhotosMissingStat
 {
-	NSError *error;
 	client.xml = error_xml;
 	[client fetchPhotosAndReturnError:&error];
 	
@@ -70,7 +69,6 @@
 
 - (void)testFetchPhotosStatNotOk
 {
-	NSError *error;
 	client.xml = error_xml;
 	[client fetchPhotosAndReturnError:&error];
 	
@@ -80,7 +78,6 @@
 
 - (void)testFetchPhotosXPathError
 {
-	NSError *error;
 	client.xml = error_xml;
 	[client fetchPhotosAndReturnError:&error];
 	

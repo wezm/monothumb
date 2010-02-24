@@ -9,11 +9,13 @@
 #import "FlickrClient.h"
 #import "FlickrPhoto.h"
 
+NSString *const WMMonothumbErrorDomain = @"net.wezm.monothumb.ErrorDomain";
+
 @implementation FlickrClient
 
 @synthesize xml;
 
-- (void)fetchPhotosAndReturnError:(NSError **)error
+- (BOOL)fetchPhotosAndReturnError:(NSError **)error
 {
 	NSError *errors;
 	NSXMLElement *e;
@@ -27,8 +29,14 @@
 	}
 	
 	if(xml == nil) {
-		NSLog(@"Error parsing the photo XML");
-		return 1;
+		if(error != nil) {
+			NSDictionary *info = [NSDictionary dictionaryWithObject:@"Error parsing the photo XML"
+															 forKey:NSLocalizedDescriptionKey];
+			*error = [[[NSError alloc] initWithDomain:WMMonothumbErrorDomain
+										code:WMFlickrClientParseError
+									userInfo:info] autorelease];
+		}
+		return NO;
 	}
 	
 	e = [xml rootElement];
@@ -36,20 +44,20 @@
 	if(stat == nil) {
 		NSLog(@"Expected stat attribute but got nil");
 		[xml release];
-		return 1;
+		return NO;
 	}
 	
 	if ([stat compare:@"ok"] != NSOrderedSame) {
 		NSLog(@"Stat not ok: %@", stat);
 		[xml release];
-		return 1;
+		return NO;
 	}
 	
 	photo_nodes = [xml nodesForXPath:@"//photos/photo" error:&errors];
 	if(errors != nil) {
 		NSLog(@"Error getting photos");
 		[xml release];
-		return 1;
+		return NO;
 	}
 	
 	photos = [[NSMutableArray alloc] initWithCapacity:[photo_nodes count]];
@@ -69,7 +77,7 @@
 		}
 	}];
 	
-	return 0;
+	return YES;
 }
 
 - (NSArray *)photos
