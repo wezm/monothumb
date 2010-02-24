@@ -64,7 +64,7 @@
 	[client fetchPhotosAndReturnError:&error];
 	
 	GHAssertNotNil(error, @"Error should not be nil");
-	GHAssertEqualStrings(@"GET", [error localizedDescription], nil);
+	GHAssertEqualStrings(@"Expected stat attribute but got nil", [error localizedDescription], nil);
 }
 
 - (void)testFetchPhotosStatNotOk
@@ -73,7 +73,7 @@
 	[client fetchPhotosAndReturnError:&error];
 	
 	GHAssertNotNil(error, @"Error should not be nil");
-	GHAssertEqualStrings(@"GET", [error localizedDescription], nil);
+	GHAssertEqualStrings(@"Stat not ok: fail", [error localizedDescription], nil);
 }
 
 - (void)testFetchPhotosXPathError
@@ -82,7 +82,7 @@
 	[client fetchPhotosAndReturnError:&error];
 	
 	GHAssertNotNil(error, @"Error should not be nil");
-	GHAssertEqualStrings(@"GET", [error localizedDescription], nil);
+	GHAssertEqualStrings(@"Error getting photos elements", [error localizedDescription], nil);
 }
 
 //- (void)testParseSimple {

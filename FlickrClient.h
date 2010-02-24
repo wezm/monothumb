@@ -13,8 +13,8 @@ NSString *const WMMonothumbErrorDomain;
 enum {
 	//NSFileReadNoSuchFileError=260,
 	WMFlickrClientParseError=1,
-//	HttpParserOutOfBoundsError=2,
-//	HttpParserInvalidRequest=3,
+	WMFlickrClientErrorResponse=2,
+	WMFlickrClientUnexpectedXMLError=3,
 };
 
 

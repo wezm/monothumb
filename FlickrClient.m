@@ -11,6 +11,13 @@
 
 NSString *const WMMonothumbErrorDomain = @"net.wezm.monothumb.ErrorDomain";
 
+@interface FlickrClient (Private)
+
+- (NSError *)errorWithCode:(NSInteger)code localizedDescription:(NSString *)description;
+
+@end
+
+
 @implementation FlickrClient
 
 @synthesize xml;
@@ -29,33 +36,32 @@ NSString *const WMMonothumbErrorDomain = @"net.wezm.monothumb.ErrorDomain";
 	}
 	
 	if(xml == nil) {
-		if(error != nil) {
-			NSDictionary *info = [NSDictionary dictionaryWithObject:@"Error parsing the photo XML"
-															 forKey:NSLocalizedDescriptionKey];
-			*error = [[[NSError alloc] initWithDomain:WMMonothumbErrorDomain
-										code:WMFlickrClientParseError
-									userInfo:info] autorelease];
-		}
+		if(error != nil)
+			*error = [self errorWithCode:WMFlickrClientParseError localizedDescription:@"Error parsing the photo XML"];
 		return NO;
 	}
 	
 	e = [xml rootElement];
 	stat = [[e attributeForName:@"stat"] stringValue];
 	if(stat == nil) {
-		NSLog(@"Expected stat attribute but got nil");
+		if(error != nil)
+			*error = [self errorWithCode:WMFlickrClientUnexpectedXMLError localizedDescription:@"Expected stat attribute but got nil"];
 		[xml release];
 		return NO;
 	}
 	
 	if ([stat compare:@"ok"] != NSOrderedSame) {
-		NSLog(@"Stat not ok: %@", stat);
+		NSString *desc = [NSString stringWithFormat:@"Stat not ok: %@", stat];
+		if(error != nil)
+			*error = [self errorWithCode:WMFlickrClientErrorResponse localizedDescription:desc];
 		[xml release];
 		return NO;
 	}
 	
 	photo_nodes = [xml nodesForXPath:@"//photos/photo" error:&errors];
 	if(errors != nil) {
-		NSLog(@"Error getting photos");
+		if(error != nil)
+			*error = [self errorWithCode:WMFlickrClientUnexpectedXMLError localizedDescription:@"Error getting photos elements"];
 		[xml release];
 		return NO;
 	}
@@ -83,6 +89,15 @@ NSString *const WMMonothumbErrorDomain = @"net.wezm.monothumb.ErrorDomain";
 - (NSArray *)photos
 {
 	return [NSArray arrayWithArray:photos];
+}
+
+- (NSError *)errorWithCode:(NSInteger)code localizedDescription:(NSString *)description
+{
+	NSDictionary *info = [NSDictionary dictionaryWithObject:description
+													 forKey:NSLocalizedDescriptionKey];
+	return [NSError errorWithDomain:WMMonothumbErrorDomain
+							   code:code
+						   userInfo:info];
 }
 
 
