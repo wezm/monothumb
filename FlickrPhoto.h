@@ -39,6 +39,8 @@
 - (BOOL)isValid;
 //- (NSURL *)photoPageURL;
 
+- (BOOL)loadAndReturnError:(NSError **)error;
+
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response;
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data;
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error;

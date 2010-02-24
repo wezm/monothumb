@@ -173,7 +173,8 @@
 	return finished;
 }
 
-
+- (BOOL)loadAndReturnError:(NSError **)error
+{
 //FlickrPhoto *process_photo_node(NSXMLNode *node)
 //{
 //	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
@@ -210,6 +211,8 @@
 //	[pool drain];
 //	return [photo autorelease];
 //}
+	return NO;
+}
 
 - (NSData *)data
 {
