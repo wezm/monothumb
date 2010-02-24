@@ -39,7 +39,8 @@ int main (int argc, const char * argv[]) {
 	CIContext *core_image_context = [context CIContext];
 
 	[[flickr photos] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-		FlickrPhoto *photo = (FlickrPhoto *)obj;		
+		FlickrPhoto *photo = (FlickrPhoto *)obj;
+		// TODO: photo should fetch its data here
 		CIImage *image = [CIImage imageWithData:[photo data]];
 
 		// Apply the monochrome filter
