@@ -47,6 +47,7 @@
 	
 	GHAssertNil(error, @"Error should be nil");
 	GHAssertEquals((NSUInteger)20, [[client photos] count], @"Didn't create all 20 photos");
+	
 }
 
 - (void)testFetchPhotosParseError
@@ -60,7 +61,9 @@
 
 - (void)testFetchPhotosMissingStat
 {
-	client.xml = error_xml;
+	NSString *xml_string = @"<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n<rsp nostat=\"missing\"></rsp>";
+	NSXMLDocument *xml_doc = [[NSXMLDocument alloc] initWithXMLString:xml_string options:NSXMLNodeOptionsNone error:nil];
+	client.xml = xml_doc;
 	[client fetchPhotosAndReturnError:&error];
 	
 	GHAssertNotNil(error, @"Error should not be nil");
@@ -76,7 +79,7 @@
 	GHAssertEqualStrings(@"Stat not ok: fail", [error localizedDescription], nil);
 }
 
-- (void)testFetchPhotosXPathError
+- (void)pending_testFetchPhotosXPathError
 {
 	client.xml = error_xml;
 	[client fetchPhotosAndReturnError:&error];

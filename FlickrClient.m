@@ -59,7 +59,7 @@ NSString *const WMMonothumbErrorDomain = @"net.wezm.monothumb.ErrorDomain";
 	}
 	
 	photo_nodes = [xml nodesForXPath:@"//photos/photo" error:&errors];
-	if(errors != nil) {
+	if(photo_nodes == nil) {
 		if(error != nil)
 			*error = [self errorWithCode:WMFlickrClientUnexpectedXMLError localizedDescription:@"Error getting photos elements"];
 		[xml release];
