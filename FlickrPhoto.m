@@ -45,6 +45,7 @@
 
 		url = [[NSURL alloc] initWithString:value];
 		dimensions = [self sizeForHeightKey:@"height_sq" widthKey:@"width_sq" fromElement:element];
+		title = [[element attributeForName:@"title"] stringValue];
 		data = [[NSMutableData alloc] init];
 	}
 	
@@ -171,6 +172,7 @@
 {
 	return finished;
 }
+
 
 //FlickrPhoto *process_photo_node(NSXMLNode *node)
 //{
