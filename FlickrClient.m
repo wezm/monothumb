@@ -15,8 +15,6 @@
 
 - (void)fetchPhotosAndReturnError:(NSError **)error
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-
 	NSError *errors;
 	NSXMLElement *e;
 	NSString *stat;
@@ -30,7 +28,6 @@
 	
 	if(xml == nil) {
 		NSLog(@"Error parsing the photo XML");
-		[pool drain];
 		return 1;
 	}
 	
@@ -39,14 +36,12 @@
 	if(stat == nil) {
 		NSLog(@"Expected stat attribute but got nil");
 		[xml release];
-		[pool drain];
 		return 1;
 	}
 	
 	if ([stat compare:@"ok"] != NSOrderedSame) {
 		NSLog(@"Stat not ok: %@", stat);
 		[xml release];
-		[pool drain];
 		return 1;
 	}
 	
@@ -54,7 +49,6 @@
 	if(errors != nil) {
 		NSLog(@"Error getting photos");
 		[xml release];
-		[pool drain];
 		return 1;
 	}
 	
@@ -75,7 +69,6 @@
 		}
 	}];
 	
-	[pool drain];
 	return 0;
 }
 
