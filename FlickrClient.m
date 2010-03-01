@@ -8,6 +8,7 @@
 
 #import "FlickrClient.h"
 #import "FlickrPhoto.h"
+#import "WMMonothumbError.h"
 
 NSString *const WMMonothumbErrorDomain = @"net.wezm.monothumb.ErrorDomain";
 
