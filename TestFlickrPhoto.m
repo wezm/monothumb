@@ -12,6 +12,7 @@
 	FlickrPhoto *photo;
 	NSXMLElement *elem;
 //	NSXMLDocument *error_xml;
+	id mock_connection;
 }
 @end
 
@@ -32,10 +33,14 @@
 	NSDictionary *attributes = [NSDictionary dictionaryWithObjects:values forKeys:keys];
 	elem = [[NSXMLElement alloc] initWithName:@"photo"];
 	[elem setAttributesAsDictionary:attributes];
+
+	mock_connection = [OCMockObject mockForClass:[NSURLConnection class]];
 }
 //
 - (void)tearDown {
     // Run after each test method
+	[mock_connection verify];
+	
 	if(elem) [elem release];
 	if(photo) [photo release];
 }
@@ -69,8 +74,30 @@
 - (void)testInvalid
 {
 	[elem removeAttributeForName:@"url_sq"];
+	NSXMLNode *attr = [NSXMLNode attributeWithName:@"url_sq" stringValue:@"I'm not a valid URL"];
+	[elem addAttribute:attr];
 	photo = [[FlickrPhoto alloc] initWithXMLElement:elem];
+	GHAssertNotNil(photo, nil);
 	GHAssertFalse([photo isValid], nil);
+}
+
+- (void)testInitFailure
+{
+	[elem removeAttributeForName:@"url_sq"];
+	photo = [[FlickrPhoto alloc] initWithXMLElement:elem];
+	GHAssertNil(photo, nil);
+}
+
+- (void)testSuccessfullyLoadAndReturnError
+{
+	NSError *error = nil;
+	photo = [[FlickrPhoto alloc] initWithXMLElement:elem];
+	
+	[[mock_connection expect] initWithRequest:OCMOCK_ANY delegate:photo];
+
+	BOOL result = [photo loadAndReturnError:&error];
+	GHAssertTrue(result, @"did not return YES");
+	GHAssertNil(error, @"Expected error to be nil");
 }
 
 @end

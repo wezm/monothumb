@@ -7,26 +7,17 @@
 //
 
 #import "FlickrPhoto.h"
+#import	"WMMonothumbError.h"
 
 @interface FlickrPhoto (Private)
 
 - (NSSize)sizeForHeightKey:(NSString *)heightKey widthKey:(NSString *)widthKey fromElement:(NSXMLElement *)e;
+- (NSError *)errorWithCode:(NSInteger)code localizedDescription:(NSString *)description;
 
 @end
 
 
 @implementation FlickrPhoto
-
-//- (id)init
-//{
-//	if((self = [super init]) != nil) {
-//		data = [[NSMutableData alloc] init];
-//		finished = NO;
-//	}
-//	
-//	return self;
-//}
-//
 
 @synthesize url;
 @synthesize dimensions;
@@ -39,7 +30,7 @@
 		NSString *value = [[element attributeForName:@"url_sq"] stringValue];
 		if(value == nil) {
 			NSLog(@"Square photo URL was nil");
-//			[pool drain];
+			[self release];
 			return nil;
 		}
 
@@ -52,32 +43,6 @@
 	return self;
 }
 
-//- (id)initWithDict:(NSDictionary *)attributes
-//{
-//	if((self = [super init]) != nil)
-//	{
-//		NSString *value;
-//
-//		// Messages to nil are ok right....
-//		identifier = [[attributes objectForKey:@"id"] retain];
-//		owner = [[attributes objectForKey:@"owner"] retain];
-//		value = [attributes objectForKey:@"url_sq"];
-//		if (value != nil) {
-//			squareUrl = [[NSURL alloc] initWithString:value];
-//		}
-//
-//		value = [attributes objectForKey:@"url_m"];
-//		if (value != nil) {
-//			mediumUrl = [[NSURL alloc] initWithString:value];
-//		}
-//
-//		squareDimensions = [self sizeForHeightKey:@"height_sq" widthKey:@"width_sq" fromDict:attributes];
-//		mediumDimensions = [self sizeForHeightKey:@"height_m" widthKey:@"width_m" fromDict:attributes];
-//	}
-//	
-//	return self;
-//}
-//
 - (NSSize)sizeForHeightKey:(NSString *)heightKey widthKey:(NSString *)widthKey fromElement:(NSXMLElement *)e
 {
 	NSString *height = [[e attributeForName:heightKey] stringValue];
@@ -96,7 +61,7 @@
 //
 - (BOOL)isValid
 {
-	if(dimensions.height > 0 && dimensions.width > 0) {
+	if(url != nil && dimensions.height > 0 && dimensions.width > 0) {
 		return YES;
 	}
 	
@@ -175,30 +140,20 @@
 
 - (BOOL)loadAndReturnError:(NSError **)error
 {
-//FlickrPhoto *process_photo_node(NSXMLNode *node)
-//{
-//	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-//	
 //	NSRunLoop *run_loop = [NSRunLoop currentRunLoop];
 //	BOOL shouldKeepRunning = YES;
-//	
-//	NSString *value = [[photo_elem attributeForName:@"url_sq"] stringValue];
-//	if(value == nil) {
-//		NSLog(@"Photo URL was nil");
-//		[pool drain];
-//		return nil;
-//	}
-//	
-//	// Retrieve the image
-//	FlickrPhoto *photo = [[FlickrPhoto alloc] init];
-//	NSURL *photoUrl = [NSURL URLWithString:value];
-//	NSURLRequest *photoRequest = [NSURLRequest requestWithURL:photoUrl cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
-//	NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:photoRequest delegate:photo];
-//	if(!connection) {
-//		NSLog(@"Error starting UrlConnection");
-//		return nil;
-//	}
-//	
+	
+	// Retrieve the image
+	NSURLRequest *photoRequest = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+	NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:photoRequest delegate:self startImmediately:NO];
+	if(!connection) {
+		if(error != nil)
+			*error = [self errorWithCode:WMFlickrClientUnexpectedXMLError localizedDescription:@"Error starting URLConnection"];
+		return NO;
+	}
+	
+	[connection scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+	
 //	// Pump the run loop because we're not a GUI app
 //	// TODO: This will keep allocating date objects, perhaps should drain the pool in the loop
 //	while (shouldKeepRunning && [run_loop runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:60.0]])
@@ -208,15 +163,25 @@
 //	
 //	// TODO: Check if photo is valid
 //	
-//	[pool drain];
-//	return [photo autorelease];
-//}
-	return NO;
+//	if([self isValid])
+//		return YES;
+//
+//	[photo release];
+	return YES;
 }
 
 - (NSData *)data
 {
 	return [NSData dataWithData:data];
 }
-	
+
+- (NSError *)errorWithCode:(NSInteger)code localizedDescription:(NSString *)description
+{
+	NSDictionary *info = [NSDictionary dictionaryWithObject:description
+													 forKey:NSLocalizedDescriptionKey];
+	return [NSError errorWithDomain:WMMonothumbErrorDomain
+							   code:code
+						   userInfo:info];
+}
+
 @end

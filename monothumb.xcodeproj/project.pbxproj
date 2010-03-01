@@ -10,6 +10,8 @@
 		8DD76F9A0486AA7600D96B5E /* monothumb.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* monothumb.m */; settings = {ATTRIBUTES = (); }; };
 		8DD76F9C0486AA7600D96B5E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08FB779EFE84155DC02AAC07 /* Foundation.framework */; };
 		8DD76F9F0486AA7600D96B5E /* monothumb.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = C6859EA3029092ED04C91782 /* monothumb.1 */; };
+		B1106CFA113BA88C00CCBFBB /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1106CF9113BA88C00CCBFBB /* OCMock.framework */; };
+		B1106CFD113BA8BA00CCBFBB /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = B1106CF9113BA88C00CCBFBB /* OCMock.framework */; };
 		B19C0FB21111985000E36682 /* NSXMLFlickrPhotoTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = B19C0FB11111985000E36682 /* NSXMLFlickrPhotoTransformer.m */; };
 		B1CE31A11131D15200C21259 /* FlickrClient.m in Sources */ = {isa = PBXBuildFile; fileRef = B1CE31A01131D15200C21259 /* FlickrClient.m */; };
 		B1CE31FA1133290800C21259 /* GHUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1CE31EA1133279A00C21259 /* GHUnit.framework */; };
@@ -44,6 +46,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				B1CE32611133B5FE00C21259 /* GHUnit.framework in CopyFiles */,
+				B1106CFD113BA8BA00CCBFBB /* OCMock.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -54,6 +57,8 @@
 		08FB779EFE84155DC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32A70AAB03705E1F00C91783 /* monothumb_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = monothumb_Prefix.pch; sourceTree = "<group>"; };
 		8DD76FA10486AA7600D96B5E /* monothumb */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = monothumb; sourceTree = BUILT_PRODUCTS_DIR; };
+		B1106CF9113BA88C00CCBFBB /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OCMock.framework; sourceTree = "<group>"; };
+		B1106D3A113BAB9C00CCBFBB /* WMMonothumbError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WMMonothumbError.h; sourceTree = "<group>"; };
 		B19C0FB01111985000E36682 /* NSXMLFlickrPhotoTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSXMLFlickrPhotoTransformer.h; sourceTree = "<group>"; };
 		B19C0FB11111985000E36682 /* NSXMLFlickrPhotoTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSXMLFlickrPhotoTransformer.m; sourceTree = "<group>"; };
 		B1CE319F1131D15200C21259 /* FlickrClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlickrClient.h; sourceTree = "<group>"; };
@@ -90,6 +95,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B1CE31FA1133290800C21259 /* GHUnit.framework in Frameworks */,
+				B1106CFA113BA88C00CCBFBB /* OCMock.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -120,6 +126,7 @@
 				B19C0FB11111985000E36682 /* NSXMLFlickrPhotoTransformer.m */,
 				B1CE319F1131D15200C21259 /* FlickrClient.h */,
 				B1CE31A01131D15200C21259 /* FlickrClient.m */,
+				B1106D3A113BAB9C00CCBFBB /* WMMonothumbError.h */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -131,6 +138,7 @@
 				08FB779EFE84155DC02AAC07 /* Foundation.framework */,
 				B1EEF195112A32260065096F /* QuartzCore.framework */,
 				B1CE31EA1133279A00C21259 /* GHUnit.framework */,
+				B1106CF9113BA88C00CCBFBB /* OCMock.framework */,
 			);
 			name = "External Frameworks and Libraries";
 			sourceTree = "<group>";
@@ -200,8 +208,8 @@
 			buildPhases = (
 				B1CE31F01133287B00C21259 /* Resources */,
 				B1CE31F11133287B00C21259 /* Sources */,
-				B1CE31F21133287B00C21259 /* Frameworks */,
 				B1CE31FE1133296100C21259 /* CopyFiles */,
+				B1CE31F21133287B00C21259 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -342,6 +350,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"/Volumes/OCMock 1.55\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -372,6 +381,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
+					"\"/Volumes/OCMock 1.55\"",
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G5;
