@@ -4,15 +4,42 @@
 #import "FlickrPhoto.h"
 #import "FlickrClient.h"
 
-FlickrPhoto *process_photo_node(NSXMLNode *node);
+void usage() {
+	fprintf(stderr, "Usage: monothumb output.jpg\n");
+}
+
+void print_error(NSString *message, NSError *error) {
+	if(message != nil) NSLog(@"%@:", message);
+	if(error == nil) return;
+	
+    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+	
+	NSError *underlying_error = [[error userInfo] valueForKey:NSUnderlyingErrorKey];
+	NSLog(@"%@", [error localizedDescription]);
+	print_error(nil, underlying_error);
+
+	[pool drain];
+}
 
 int main (int argc, const char * argv[]) {
+	if (argc < 2) {
+		usage();
+		return 2;
+	}
+	
     NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
-	NSError *errors;
+	NSError *error = nil;
+	BOOL ok;
 
+	NSString *output_path = [NSString stringWithUTF8String:argv[1]];
 	FlickrClient *flickr = [[FlickrClient alloc] init];
 	
-	[flickr fetchPhotos]; // XXX: rename this method: getRecentPhotos, photostream...?
+	ok = [flickr fetchPhotosAndReturnError:&error]; // XXX: rename this method: getRecentPhotos, photostream...?
+	if(!ok) {
+		print_error(@"Unable to get Flickr photostream", error);
+		[pool drain];
+		return 1;
+	}
 	
 	// Create the destination image
 	NSInteger pixel_width = 75 * 20;
@@ -71,7 +98,7 @@ int main (int argc, const char * argv[]) {
 	
 	NSDictionary *properties = [NSDictionary dictionaryWithObjectsAndKeys:NSImageCompressionFactor, [NSNumber numberWithFloat:0.9], NSImageProgressive, [NSNumber numberWithBool:YES], NSImageFallbackBackgroundColor, [NSColor whiteColor], nil];
 	NSData *final_image = [dest representationUsingType:NSJPEGFileType properties:properties];
-	[final_image writeToFile:@"output.jpg" options:0 error:&errors];
+	[final_image writeToFile:output_path options:0 error:&error];
 	
     [pool drain];
     return 0;

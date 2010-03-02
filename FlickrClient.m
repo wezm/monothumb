@@ -25,7 +25,7 @@ NSString *const WMMonothumbErrorDomain = @"net.wezm.monothumb.ErrorDomain";
 
 - (BOOL)fetchPhotosAndReturnError:(NSError **)error
 {
-	NSError *errors;
+	NSError *errors = nil;
 	NSXMLElement *e;
 	NSString *stat;
 	NSArray *photo_nodes;
@@ -37,8 +37,15 @@ NSString *const WMMonothumbErrorDomain = @"net.wezm.monothumb.ErrorDomain";
 	}
 	
 	if(xml == nil) {
-		if(error != nil)
-			*error = [self errorWithCode:WMFlickrClientParseError localizedDescription:@"Error parsing the photo XML"];
+		if(error != nil) {
+			NSMutableDictionary *user_info = [NSMutableDictionary dictionary];
+			[user_info setObject:@"Error parsing the photo XML" forKey:NSLocalizedDescriptionKey];
+			if(errors != nil) {
+				[user_info setObject:errors forKey:NSUnderlyingErrorKey];
+			}
+			NSError *err = [[NSError alloc] initWithDomain:WMMonothumbErrorDomain code:WMFlickrClientParseError userInfo:[NSDictionary dictionaryWithDictionary:user_info]];
+			*error = [err autorelease];
+		}
 		return NO;
 	}
 	
