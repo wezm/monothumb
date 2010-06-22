@@ -33,14 +33,15 @@ local function desaturate_image(image)
   for x=0, width-1 do
     for y=0, height-1 do
       local pix = image:get_pixel(x, y)
-      local gray = pix.red * 0.33 + pix.green * 0.33 + pix.blue * 0.33
-      if (gray >= 0.5) then
-        gray = math.ceil(gray)
+      -- Link
+      local luminance = 0.2126 * pix.red + 0.7152 * pix.green + 0.0722 * pix.blue
+      if (luminance - math.floor(luminance) >= 0.5) then
+        luminance = math.ceil(luminance)
       else
-        gray = math.floor(gray)
+        luminance = math.floor(luminance)
       end
 
-      local monopix = imlib2.color.new(gray, gray, gray, pix.alpha)
+      local monopix = imlib2.color.new(luminance, luminance, luminance, pix.alpha)
       result:draw_pixel(x, y, monopix)
     end
   end
