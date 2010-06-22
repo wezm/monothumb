@@ -124,12 +124,13 @@ for idx, attrs in ipairs(photos) do
   local photo = imlib2.image.load(attrs['filepath'])
 
   if (photo) then
-    -- Draw the color version
-    output:blend_image(photo, false, 0, 0, 75, 75, (idx - 1) * 75, 0, 75, 75)
-
-    -- and the monochrome version
     local monochrome = desaturate_image(photo)
-    output:blend_image(monochrome, false, 0, 0, 75, 75, (idx - 1) * 75, 75, 75, 75)
+
+    -- Draw the monochrome version
+    output:blend_image(monochrome, false, 0, 0, 75, 75, (idx - 1) * 75, 0, 75, 75)
+
+    -- and the colour version
+    output:blend_image(photo, false, 0, 0, 75, 75, (idx - 1) * 75, 75, 75, 75)
   else
     print("Unable to load " .. attrs['filepath'])
   end
