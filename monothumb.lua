@@ -118,6 +118,7 @@ local pixel_height = 75 * 2;
 output = imlib2.image.new(pixel_width, pixel_height)
 output:set_has_alpha(false)
 output:set_format("jpg")
+output:set_quality(90)
 
 -- Now process the images
 for idx, attrs in ipairs(photos) do
