@@ -22,6 +22,7 @@ end
 
 local callbacks
 local photos = {}
+local cache_dir = "output"
 
 local function desaturate_image(image)
   local width = image:get_width()
@@ -125,17 +126,26 @@ for idx, attrs in ipairs(photos) do
   local photo = imlib2.image.load(attrs['filepath'])
 
   if (photo) then
-    -- Draw the color version
-    output:blend_image(photo, false, 0, 0, 75, 75, (idx - 1) * 75, 0, 75, 75)
-
-    -- and the monochrome version
+    -- Draw the monochrome version
     local monochrome = desaturate_image(photo)
-    output:blend_image(monochrome, false, 0, 0, 75, 75, (idx - 1) * 75, 75, 75, 75)
+    output:blend_image(monochrome, false, 0, 0, 75, 75, (idx - 1) * 75, 0, 75, 75)
+
+    -- Draw the color version
+    output:blend_image(photo, false, 0, 0, 75, 75, (idx - 1) * 75, 75, 75, 75)
   else
     print("Unable to load " .. attrs['filepath'])
   end
 end
 
 -- save the result
-output:save("sprite.jpg")
+output:save(cache_dir .. "/photos.jpg")
+
+-- write out the xml as well
+local xmlfile, err = io.open(cache_dir .. "/photos.xml", "w")
+if (xmlfile) then
+  xmlfile:write(rsp)
+  xmlfile:close()
+else
+  print("Unable to open XML file for writing: " .. err)
+end
 
