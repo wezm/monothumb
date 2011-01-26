@@ -5,7 +5,7 @@ ltn12 = require("ltn12")
 require("lxp")
 require("imlib2")
 
-local api_url = "http://api.flickr.com/services/rest/?method=flickr.people.getPublicPhotos&api_key=aa003631cc50bd47f27f242d30bcd22f&user_id=40215689%40N00&per_page=20&extras=url_sq,url_m"
+local api_url = "http://api.flickr.com/services/rest/?method=flickr.people.getPublicPhotos&api_key=aa003631cc50bd47f27f242d30bcd22f&user_id=40215689%40N00&per_page=20&extras=url_sq,url_z"
 
 rsp, status, auth = http.request(api_url)
 
