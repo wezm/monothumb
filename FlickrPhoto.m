@@ -122,7 +122,7 @@
 {
     // do something with the data
     // receivedData is declared as a method instance elsewhere
-    NSLog(@"Succeeded! Received %d bytes of data, writing to %@",[data length], file_name);
+    NSLog(@"Succeeded! Received %lu bytes of data, writing to %@", (unsigned long)[data length], file_name);
 	
     // release the connection, and the data object
     [connection release];
@@ -140,8 +140,8 @@
 
 - (BOOL)loadAndReturnError:(NSError **)error
 {
-//	NSRunLoop *run_loop = [NSRunLoop currentRunLoop];
-//	BOOL shouldKeepRunning = YES;
+	NSRunLoop *run_loop = [NSRunLoop currentRunLoop];
+	BOOL shouldKeepRunning = YES;
 	
 	// Retrieve the image
 	NSURLRequest *photoRequest = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
@@ -152,22 +152,18 @@
 		return NO;
 	}
 	
-	[connection scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+	[connection scheduleInRunLoop:run_loop forMode:NSDefaultRunLoopMode];
+    [connection start];
 	
-//	// Pump the run loop because we're not a GUI app
-//	// TODO: This will keep allocating date objects, perhaps should drain the pool in the loop
-//	while (shouldKeepRunning && [run_loop runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:60.0]])
-//	{
-//		if([photo isFinished]) shouldKeepRunning = NO;
-//	}
-//	
-//	// TODO: Check if photo is valid
-//	
-//	if([self isValid])
-//		return YES;
-//
-//	[photo release];
-	return YES;
+	// Pump the run loop because we're not a GUI app
+	// TODO: This will keep allocating date objects, perhaps should drain the pool in the loop
+	while (shouldKeepRunning && [run_loop runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:60.0]])
+	{
+		if([self isFinished]) shouldKeepRunning = NO;
+	}
+	
+	// TODO: Check if photo is valid
+	return [self isValid];
 }
 
 - (NSData *)data

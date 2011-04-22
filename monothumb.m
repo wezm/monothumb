@@ -67,7 +67,15 @@ int main (int argc, const char * argv[]) {
 
 	[[flickr photos] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
 		FlickrPhoto *photo = (FlickrPhoto *)obj;
-		// TODO: photo should fetch its data here
+        NSLog(@"%@", photo.title);
+
+		NSError *error = nil;
+        if(![photo loadAndReturnError:&error]) {
+            NSString *error_message = [error localizedDescription];
+            NSLog(@"Error loading photo %@: %@", photo.url, error_message);
+            *stop = YES;
+            return;
+        }
 		CIImage *image = [CIImage imageWithData:[photo data]];
 
 		// Apply the monochrome filter
@@ -90,16 +98,20 @@ int main (int argc, const char * argv[]) {
 		
 		// Draw the result in the destination context
 		CGRect src_rect = NSRectToCGRect(NSMakeRect(0, 0, 75, 75));
-		CGPoint dest_point = {idx * 75, 0};
+		CGPoint dest_point = {idx * 75, 75};
 		[core_image_context drawImage:result atPoint:dest_point fromRect:src_rect];
-		dest_point.y = 75;
+		dest_point.y = 0;
 		[core_image_context drawImage:image atPoint:dest_point fromRect:src_rect];
 	}];
 	
 	NSDictionary *properties = [NSDictionary dictionaryWithObjectsAndKeys:NSImageCompressionFactor, [NSNumber numberWithFloat:0.9], NSImageProgressive, [NSNumber numberWithBool:YES], NSImageFallbackBackgroundColor, [NSColor whiteColor], nil];
 	NSData *final_image = [dest representationUsingType:NSJPEGFileType properties:properties];
 	[final_image writeToFile:output_path options:0 error:&error];
-	
+
+	// Write out the Flickr XML as well
+    NSString *xml_output_path = [[output_path stringByDeletingPathExtension] stringByAppendingPathExtension:@"xml"];
+    [[flickr.xml XMLData] writeToFile:xml_output_path atomically:NO];
+    
     [pool drain];
     return 0;
 }
