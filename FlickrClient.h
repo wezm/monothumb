@@ -11,10 +11,14 @@
 @interface FlickrClient : NSObject {
 	NSMutableArray *photos;
 	NSXMLDocument *xml;
+    
+    NSString *apiKey;
+    NSString *userId;
 }
 
 @property(retain) NSXMLDocument *xml;
 
+- (id)initWithAPIKey:(NSString *)key userId:(NSString *)user;
 - (BOOL)fetchPhotosAndReturnError:(NSError **)error;
 - (NSArray *)photos;
 

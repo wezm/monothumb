@@ -4,6 +4,8 @@
 #import "FlickrPhoto.h"
 #import "FlickrClient.h"
 
+const static CFStringRef kApplicationID = CFSTR("net.wezm.monothumb");
+
 void usage() {
 	fprintf(stderr, "Usage: monothumb output.jpg\n");
 }
@@ -26,13 +28,40 @@ int main (int argc, const char * argv[]) {
 		usage();
 		return 2;
 	}
-	
+
     NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+
+    // Read the Flickr API credentials from user defaults
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults addSuiteNamed:@"net.wezm.monothumb"];
+    
+    NSString *flickr_key = [userDefaults stringForKey:@"FlickrAPIKey"];
+    NSString *user_id = [userDefaults stringForKey:@"FlickrUserID"];
+    
+    if (!(flickr_key && user_id)) {
+        fprintf(stderr, "You need to specify you Flickr API key and user ID. You can do this\n");
+        fprintf(stderr, "via user defaults or command line arguments, or a combination of both.\n\n");
+
+        fprintf(stderr, "Via user defaults:\n\n");
+        fprintf(stderr, "API Key:\ndefaults write net.wezm.monothumb \"FlickrAPIKey\" 'your-api-key'\n\n");
+
+        fprintf(stderr, "User ID (you can find out your user id via: http://idgettr.com/):\n");
+        fprintf(stderr, "defaults write net.wezm.monothumb \"FlickrUserID\" 'Flickr User ID'\n\n");
+
+        fprintf(stderr, "Via command line arguments:\n\n");
+        fprintf(stderr, "monothumb -FlickrAPIKey your-api-key -FlickrUserID user-id\n\n");
+        
+        fprintf(stderr, "If you don't have API details you can apply at:\nhttp://www.flickr.com/services/apps/create/apply/\n");
+        return 1;
+    }
+    
 	NSError *error = nil;
 	BOOL ok;
 
 	NSString *output_path = [NSString stringWithUTF8String:argv[1]];
-	FlickrClient *flickr = [[FlickrClient alloc] init];
+	FlickrClient *flickr = [[FlickrClient alloc] initWithAPIKey:flickr_key userId:user_id];
+    [flickr_key release];
+    [user_id release];
 	
 	ok = [flickr fetchPhotosAndReturnError:&error]; // XXX: rename this method: getRecentPhotos, photostream...?
 	if(!ok) {

@@ -23,6 +23,24 @@ NSString *const WMMonothumbErrorDomain = @"net.wezm.monothumb.ErrorDomain";
 
 @synthesize xml;
 
+- (id)initWithAPIKey:(NSString *)key userId:(NSString *)user
+{
+    if ((self = [super init]) != nil) {
+        apiKey = [key retain];
+        userId = [user retain];
+    }
+    
+    return self;
+}
+
+- (void)dealloc
+{
+    [apiKey release];
+    [userId release];
+    
+    [super dealloc];
+}
+
 - (BOOL)fetchPhotosAndReturnError:(NSError **)error
 {
 	NSError *errors = nil;
@@ -32,7 +50,10 @@ NSString *const WMMonothumbErrorDomain = @"net.wezm.monothumb.ErrorDomain";
 
 	if(xml == nil)
 	{
-		NSURL *api_url = [NSURL URLWithString:@"http://api.flickr.com/services/rest/?method=flickr.people.getPublicPhotos&api_key=aa003631cc50bd47f27f242d30bcd22f&user_id=40215689%40N00&per_page=20&extras=url_sq,url_z"];
+        NSString *apiURLString = [NSString stringWithFormat:@"http://api.flickr.com/services/rest/?method=flickr.people.getPublicPhotos&api_key=%@&user_id=%@&per_page=20&extras=url_sq,url_z",
+                                  [apiKey stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
+                                  [userId stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
+		NSURL *api_url = [NSURL URLWithString:apiURLString];
 		xml = [[NSXMLDocument alloc] initWithContentsOfURL:api_url options:NSXMLNodeOptionsNone error:&errors];
 	}
 	
@@ -62,6 +83,7 @@ NSString *const WMMonothumbErrorDomain = @"net.wezm.monothumb.ErrorDomain";
 		NSString *desc = [NSString stringWithFormat:@"Stat not ok: %@", stat];
 		if(error != nil)
 			*error = [self errorWithCode:WMFlickrClientErrorResponse localizedDescription:desc];
+        NSLog(@"%@", [xml XMLString]);
 		[xml release];
 		return NO;
 	}

@@ -94,7 +94,7 @@
     [data setLength:0];
 	if(file_name) [file_name release];
 	file_name = [[response suggestedFilename] retain];
-	NSLog(@"%@", file_name);
+	//NSLog(@"%@", file_name);
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)new_data
@@ -122,7 +122,7 @@
 {
     // do something with the data
     // receivedData is declared as a method instance elsewhere
-    NSLog(@"Succeeded! Received %lu bytes of data, writing to %@", (unsigned long)[data length], file_name);
+    // NSLog(@"Succeeded! Received %lu bytes of data, writing to %@", (unsigned long)[data length], file_name);
 	
     // release the connection, and the data object
     [connection release];

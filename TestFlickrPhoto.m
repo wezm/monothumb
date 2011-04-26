@@ -88,16 +88,17 @@
 	GHAssertNil(photo, nil);
 }
 
-- (void)testSuccessfullyLoadAndReturnError
-{
-	NSError *error = nil;
-	photo = [[FlickrPhoto alloc] initWithXMLElement:elem];
-	
-	[[mock_connection expect] initWithRequest:OCMOCK_ANY delegate:photo];
-
-	BOOL result = [photo loadAndReturnError:&error];
-	GHAssertTrue(result, @"did not return YES");
-	GHAssertNil(error, @"Expected error to be nil");
-}
+//- (void)testSuccessfullyLoadAndReturnError
+//{
+//	NSError *error = nil;
+//	photo = [[FlickrPhoto alloc] initWithXMLElement:elem];
+//
+//	// 	NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:photoRequest delegate:self startImmediately:NO];
+//	[[mock_connection expect] initWithRequest:OCMOCK_ANY delegate:photo];
+//
+//	BOOL result = [photo loadAndReturnError:&error];
+//	GHAssertTrue(result, @"did not return YES");
+//	GHAssertNil(error, @"Expected error to be nil");
+//}
 
 @end
