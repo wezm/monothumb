@@ -58,7 +58,7 @@ int main (int argc, const char * argv[]) {
 	NSError *error = nil;
 	BOOL ok;
 
-	NSString *output_path = [NSString stringWithUTF8String:argv[1]];
+	NSString *output_path = [NSString stringWithUTF8String:argv[argc - 1]];
 	FlickrClient *flickr = [[FlickrClient alloc] initWithAPIKey:flickr_key userId:user_id];
     [flickr_key release];
     [user_id release];
@@ -140,6 +140,9 @@ int main (int argc, const char * argv[]) {
 	// Write out the Flickr XML as well
     NSString *xml_output_path = [[output_path stringByDeletingPathExtension] stringByAppendingPathExtension:@"xml"];
     [[flickr.xml XMLData] writeToFile:xml_output_path atomically:NO];
+    
+    NSLog(@"photos written to %@", output_path);
+    NSLog(@"xml writtent to %@", xml_output_path);
     
     [pool drain];
     return 0;
