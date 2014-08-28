@@ -127,10 +127,10 @@ int main (int argc, const char * argv[]) {
 		
 		// Draw the result in the destination context
 		CGRect src_rect = NSRectToCGRect(NSMakeRect(0, 0, 75, 75));
-		CGPoint dest_point = {idx * 75, 75};
-		[core_image_context drawImage:result atPoint:dest_point fromRect:src_rect];
-		dest_point.y = 0;
-		[core_image_context drawImage:image atPoint:dest_point fromRect:src_rect];
+		NSRect dest_rect = NSMakeRect(idx * 75, 75, 75, 75);
+		[core_image_context drawImage:result inRect:dest_rect fromRect:src_rect];
+		dest_rect.origin.y = 0;
+		[core_image_context drawImage:image inRect:dest_rect fromRect:src_rect];
 	}];
 	
 	NSDictionary *properties = [NSDictionary dictionaryWithObjectsAndKeys:NSImageCompressionFactor, [NSNumber numberWithFloat:0.9], NSImageProgressive, [NSNumber numberWithBool:YES], NSImageFallbackBackgroundColor, [NSColor whiteColor], nil];
@@ -142,7 +142,7 @@ int main (int argc, const char * argv[]) {
     [[flickr.xml XMLData] writeToFile:xml_output_path atomically:NO];
     
     NSLog(@"photos written to %@", output_path);
-    NSLog(@"xml writtent to %@", xml_output_path);
+    NSLog(@"xml written to %@", xml_output_path);
     
     [pool drain];
     return 0;

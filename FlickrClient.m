@@ -50,7 +50,7 @@ NSString *const WMMonothumbErrorDomain = @"net.wezm.monothumb.ErrorDomain";
 
 	if(xml == nil)
 	{
-        NSString *apiURLString = [NSString stringWithFormat:@"http://api.flickr.com/services/rest/?method=flickr.people.getPublicPhotos&api_key=%@&user_id=%@&per_page=20&extras=url_sq,url_z",
+        NSString *apiURLString = [NSString stringWithFormat:@"https://api.flickr.com/services/rest/?method=flickr.people.getPublicPhotos&api_key=%@&user_id=%@&per_page=20&extras=url_sq,url_z",
                                   [apiKey stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding],
                                   [userId stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]];
 		NSURL *api_url = [NSURL URLWithString:apiURLString];
